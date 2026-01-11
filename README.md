@@ -1,3 +1,8 @@
+<<<<<<< HEAD
+# Python DevOps Internship Project 
+"## Updated for DevOps demo" 
+"# Phase 1 Complete - Ready for SAI CI/CD" 
+=======
 # Python DevOps Internship Project 🚀
 
 **Production-grade Python DevOps demonstration** for VR Della internship showcasing CI/CD, multi-environment deployments, branch protection, and automated rollback procedures.
@@ -99,3 +104,4 @@ text
 🔒 Branch Protection   # Enterprise security
 📁 Multi-env configs   # Staging/Production
 🔄 Rollback automation # Disaster recovery
+>>>>>>> 0496798b6ca7c0c2646c4c0e9f02112de1d96a49
