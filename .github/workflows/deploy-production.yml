@@ -17,7 +17,7 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y rsync
 
       - name: Setup SSH agent
-        uses: webfactory/ssh-agent@v0.8.1
+        uses: webfactory/ssh-agent@v0
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
@@ -28,7 +28,7 @@ jobs:
           APP_DIR: ${{ secrets.APP_DIR }}
         run: |
           rsync -avz --delete ./ \
-          $DEPLOY_USER@$PROD_DEPLOY_HOST:$APP_DIR/
+          ${DEPLOY_USER}@${PROD_DEPLOY_HOST}:${APP_DIR}/
 
       - name: Restart production service
         env:
@@ -36,10 +36,10 @@ jobs:
           PROD_DEPLOY_HOST: ${{ secrets.PROD_DEPLOY_HOST }}
         run: |
           ssh -o StrictHostKeyChecking=no \
-          $DEPLOY_USER@$PROD_DEPLOY_HOST "sudo systemctl restart myapp"
+          ${DEPLOY_USER}@${PROD_DEPLOY_HOST} "sudo systemctl restart myapp"
 
       - name: Production health check
         env:
           PROD_DEPLOY_HOST: ${{ secrets.PROD_DEPLOY_HOST }}
         run: |
-          curl -fsS --max-time 10 http://$PROD_DEPLOY_HOST/health || exit 1
+          curl -fsS --max-time 10 http://${PROD_DEPLOY_HOST}/health
