@@ -1,0 +1,17 @@
+name: Repo Check
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - run: |
+          echo "Repository check running"
+          echo "Message: $CHECK_MESSAGE"
+        env:
+          CHECK_MESSAGE: ${{ secrets.CHECK_MESSAGE }}
