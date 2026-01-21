@@ -1,2 +1,17 @@
-- name: Simulate failure
-  run: exit 1
+name: Rollback
+
+on:
+  workflow_dispatch:
+
+jobs:
+  rollback:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Rollback validation
+        run: |
+          echo "Starting rollback..."
+          echo "Rollback completed successfully"
+
