@@ -34,3 +34,9 @@
 ## Contacts
 - Primary on-call: <name> — <contact>
 - Secondary on-call: <name> — <contact>
+
+## Smoke Tests
+- Application starts
+- Deployment job completes
+- No workflow errors
+
