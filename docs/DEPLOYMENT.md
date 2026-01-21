@@ -1,4 +1,4 @@
-Deployment guide (simple)
+Deployment guide
 
 This repo uses two environments: staging and production.
 
