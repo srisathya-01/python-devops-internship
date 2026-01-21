@@ -3,16 +3,18 @@ name: Deploy to Staging
 on:
   push:
     branches:
-      - staging
+      - develop
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
+    environment:
+      name: staging
     steps:
       - uses: actions/checkout@v4
 
-      - name: Deploy
+      - name: Deploy to staging
         run: |
-          echo "Deploying to STAGING environment"
-          echo "Staging deployment successful"
+          echo "Deploying to STAGING"
+          echo "Staging deploy successful"
+
