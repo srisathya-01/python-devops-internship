@@ -1,0 +1,2 @@
+- name: Validate environment
+  run: bash scripts/validate_env.sh
