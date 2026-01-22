@@ -13,3 +13,9 @@ curl -fsS "$BASE_URL/metrics" > /dev/null
 
 echo "✅ Smoke tests passed"
 
+#!/usr/bin/env bash
+set -e
+
+BASE_URL=${BASE_URL:-http://localhost:5000}
+
+curl -f "$BASE_URL/health"
