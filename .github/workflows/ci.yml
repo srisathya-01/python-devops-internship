@@ -2,10 +2,7 @@ name: CI
 
 on:
   pull_request:
-    branches:
-      - main
-      - staging
-      - feature/**
+    branches: [ main, staging ]
 
 jobs:
   ci:
@@ -20,20 +17,21 @@ jobs:
           python-version: "3.10"
 
       - name: Install dependencies
-        run: |
-          pip install -r requirements.txt || echo "No requirements file"
+        run: pip install -r requirements.txt
+
+      - name: Validate environment variables
+        run: bash scripts/validate_env.sh
+
+      - name: Run database migrations
+        run: alembic upgrade head
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
       - name: Lint
-        run: |
-          echo "Running linter"
-          flake8 . || echo "Lint failed"
+        run: flake8 .
 
-      - name: Unit tests
-        run: |
-          echo "Running tests"
-          pytest || echo "Tests failed"
-      - name: Run migrations
-        env:
-          DATABASE_URL: ${{ secrets.TEST_DATABASE_URL }}
-        run: alembic upgrade head
+      - name: Run tests
+        run: pytest
 
+      - name: Validate environment variables
+        run: bash scripts/validate_env.sh
