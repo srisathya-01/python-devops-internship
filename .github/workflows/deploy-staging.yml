@@ -1,4 +1,4 @@
-e: Deploy to Staging
+name: Deploy to Staging
 
 on:
   push:
@@ -10,6 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: staging
+
     steps:
       - uses: actions/checkout@v4
 
