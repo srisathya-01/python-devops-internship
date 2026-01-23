@@ -10,11 +10,11 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: staging
+
     steps:
       - uses: actions/checkout@v4
 
       - name: Deploy to staging
         run: |
           echo "Deploying to STAGING"
-          echo "Staging deploy successful"
 
