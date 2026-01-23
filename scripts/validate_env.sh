@@ -1,24 +1,32 @@
 #!/usr/bin/env bash
-set -euo pipefail
+set -e
 
-REQ_VARS=(
-  DEPLOY_USER
-  DEPLOY_HOST
-  APP_DIR
-  SSH_PRIVATE_KEY
+REQUIRED_VARS=(
   DATABASE_URL
 )
 
-missing=()
-for v in "${REQ_VARS[@]}"; do
-  if [ -z "${!v:-}" ]; then
-    missing+=("$v")
+OPTIONAL_VARS=(
+  SUPABASE_URL
+  SUPABASE_KEY
+)
+
+echo "Validating required environment variables..."
+
+missing=0
+for var in "${REQUIRED_VARS[@]}"; do
+  if [ -z "${!var}" ]; then
+    echo "❌ Missing required variable: $var"
+    missing=1
+  else
+    echo "✅ $var is set"
   fi
 done
 
-if [ ${#missing[@]} -ne 0 ]; then
-  echo "ERROR: Missing required environment variables: ${missing[*]}" >&2
+if [ "$missing" -eq 1 ]; then
+  echo "Environment validation failed"
   exit 1
 fi
 
-echo "All required environment variables set."
+echo "Environment validation passed"
+
+
