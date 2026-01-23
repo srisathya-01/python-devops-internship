@@ -19,6 +19,9 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
+      - name: Run DB migrations
+        run: alembic upgrade head
+
       - name: Validate environment variables
         run: bash scripts/validate_env.sh
 
@@ -35,3 +38,4 @@ jobs:
 
       - name: Validate environment variables
         run: bash scripts/validate_env.sh
+
