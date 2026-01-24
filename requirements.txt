@@ -1,6 +1,5 @@
 flask==3.0.0 
 python-dotenv==1.0.1 
-Updated upstream
 flask
 psycopg2-binary
 requests
@@ -10,5 +9,4 @@ flake8
 prometheus_client
 psycopg2-binary
 requests
-Stashed changes
 
