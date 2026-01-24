@@ -1,17 +1,26 @@
-Deployment guide (simple)
+# Deployment Guide
 
-This repo uses two environments: staging and production.
+This repository uses two deployment environments: **staging** and **production**.
 
-Files added:
-docs/DEPLOYMENT.md
-.github/workflows/deploy-staging.yml
-.github/workflows/deploy-production.yml
-.github/workflows/rollback.yml
+## Environments
+- **staging**: used for testing and validation
+- **production**: live environment
 
-Key concepts:
-- develop → staging
-- main → production
-- feature/* → PRs
+## Branch Strategy
+- `develop` → staging
+- `main` → production
+- `feature/*` → pull requests
 
-Secrets are stored in GitHub Environments.
-Rollback uses previous releases on the server.
+## Workflow Files
+The following GitHub Actions workflows are used:
+
+- `.github/workflows/deploy-staging.yml`
+- `.github/workflows/deploy-production.yml`
+- `.github/workflows/rollback.yml`
+
+## Secrets
+Secrets are stored in **GitHub Environments** and injected during workflow execution.
+
+## Rollback
+Rollback deployments use **previous releases available on the server**.
+
