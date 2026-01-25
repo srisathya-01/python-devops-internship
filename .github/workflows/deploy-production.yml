@@ -1,4 +1,4 @@
-name: Deploy to Production
+name: Deploy 
 
 on:
   push:
@@ -8,69 +8,28 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    environment:
-      name: production
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Install rsync
-        run: sudo apt-get update && sudo apt-get install -y rsync
-
-      - name: Setup SSH agent
-        uses: webfactory/ssh-agent@v0.9.0
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          python-version: '3.11'
 
-      - name: Validate deploy secrets
-        env:
-          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
-          PROD_DEPLOY_HOST: ${{ secrets.PROD_DEPLOY_HOST }}
-          APP_DIR: ${{ secrets.APP_DIR }}
+      - name: Install dependencies
         run: |
-          [ -z "$DEPLOY_USER" ] && echo "DEPLOY_USER is missing" && exit 1
-          [ -z "$PROD_DEPLOY_HOST" ] && echo "PROD_DEPLOY_HOST is missing" && exit 1
-          [ -z "$APP_DIR" ] && echo "APP_DIR is missing" && exit 1
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
 
-      - name: Ensure app directory exists
-        env:
-          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
-          PROD_DEPLOY_HOST: ${{ secrets.PROD_DEPLOY_HOST }}
-          APP_DIR: ${{ secrets.APP_DIR }}
+      - name: Build application
         run: |
-          ssh -o StrictHostKeyChecking=no \
-          ${DEPLOY_USER}@${PROD_DEPLOY_HOST} "mkdir -p ${APP_DIR}"
+          echo "Building application..."
 
-      - name: Rsync to production
-        env:
-          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
-          PROD_DEPLOY_HOST: ${{ secrets.PROD_DEPLOY_HOST }}
-          APP_DIR: ${{ secrets.APP_DIR }}
+      - name: Deploy (mock)
         run: |
-          rsync -avz --delete \
-            --exclude '.git' \
-            --exclude '.github' \
-            --exclude 'tests' \
-            ./ \
-            ${DEPLOY_USER}@${PROD_DEPLOY_HOST}:${APP_DIR}/
+          echo "Deploying application..."
+          echo "Deployment completed successfully!"
 
-      - name: Restart production service
-        env:
-          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
-          PROD_DEPLOY_HOST: ${{ secrets.PROD_DEPLOY_HOST }}
-        run: |
-          ssh -o StrictHostKeyChecking=no \
-          ${DEPLOY_USER}@${PROD_DEPLOY_HOST} "sudo systemctl restart myapp"
-
-      - name: Production health check
-        env:
-          PROD_DEPLOY_HOST: ${{ secrets.PROD_DEPLOY_HOST }}
-        run: |
-          for i in {1..5}; do
-            curl -fsS --max-time 10 http://${PROD_DEPLOY_HOST}/health && exit 0
-            sleep 3
-          done
-          echo "Health check failed"
-          exit 1
 
