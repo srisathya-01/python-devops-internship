@@ -24,7 +24,7 @@ jobs:
       - name: Start app
         run: |
           python src/app/main.py &
-          sleep 5
+          sleep 15
 
       - name: Run smoke tests
         run: |
