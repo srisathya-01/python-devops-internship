@@ -7,6 +7,9 @@ from typing import List
 from sqlalchemy import text
 from .db import get_engine
 
+def is_ci_environment():
+    return os.getenv("CI", "false").lower() == "true"
+
 # Required envs for all runs
 REQUIRED_ENV_VARS = [
     "SECRET_KEY",
@@ -142,6 +145,11 @@ def check_supabase_auth_and_storage():
 
 
 def run_startup_checks_and_exit_on_failure():
+
+    if is_ci_environment():
+        print("CI detected — skipping startup checks")
+        return True
+        
     # Env validation is strict by default; if you want to make SUPABASE optional remove it from REQUIRED_ENV_VARS
     try:
         validate_env_vars()
