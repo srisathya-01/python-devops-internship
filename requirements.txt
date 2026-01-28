@@ -1,13 +1,12 @@
-flask==3.0.0 
-python-dotenv==1.0.1 
-flask
-psycopg2-binary
+# Runtime dependencies
+flask==3.0.0
+python-dotenv==1.0.1
+gunicorn==21.2.0
 requests
+psycopg2-binary
+SQLAlchemy
 prometheus_client
+
+# Dev / QA dependencies
 pytest
 flake8
-prometheus_client
-psycopg2-binary
-requests
-
-

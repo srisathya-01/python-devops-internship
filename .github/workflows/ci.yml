@@ -8,6 +8,11 @@ jobs:
   test:
     runs-on: self-hosted
 
+    env:
+      CI: true
+      ENABLE_DB_CHECK: false
+      ENABLE_MIGRATION_CHECK: false
+
     steps:
       - name: Say hello
         run: echo "Hello from my Windows laptop CI"
