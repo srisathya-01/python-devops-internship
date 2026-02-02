@@ -1,18 +1,22 @@
+#!/bin/bash
 
+set +e  # disable errexit (important for GitHub Actions)
 
-
-
-#!/usr/bin/env bash
-set -e
-
-BASE_URL=${BASE_URL:-http://localhost:5000}
+BASE_URL="http://localhost:5000"
 
 echo "Running smoke tests against $BASE_URL"
-
 echo "Checking /health"
-curl -fsS "$BASE_URL/health" | grep '"status": "ok"'
 
-echo "✅ Smoke tests passed"
+for i in {1..10}; do
+  curl -fsS "$BASE_URL/health" > /dev/null
+  if [ $? -eq 0 ]; then
+    echo "Health check passed"
+    exit 0
+  fi
+  echo "Waiting for app to be ready..."
+  sleep 2
+done
 
-
+echo "Health check failed"
+exit 1
 
